@@ -1,0 +1,5 @@
+package datasources
+
+func SetupMonodb() {
+
+}
