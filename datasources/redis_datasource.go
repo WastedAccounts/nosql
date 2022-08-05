@@ -2,6 +2,7 @@ package datasources
 
 import (
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/gomodule/redigo/redis"
@@ -10,7 +11,7 @@ import (
 
 var (
 	RedisConnPool *redis.Pool
-	Ready         bool
+	RedisReady    bool
 )
 
 func SetupRedis() bool {
@@ -20,7 +21,8 @@ func SetupRedis() bool {
 	}
 	initRedisPool()
 	pingRedisPool(RedisConnPool.Get())
-	return Ready
+	log.Println("Redis initialization complete")
+	return RedisReady
 }
 
 func initRedisPool() {
@@ -28,30 +30,31 @@ func initRedisPool() {
 	REDIS_SVR := os.Getenv("REDIS_IP")
 	REDIS_PORT := os.Getenv("REDIS_PORT")
 	redisConnStr = REDIS_SVR + ":" + REDIS_PORT
-	// fmt.Println(redisConnStr)
+	//fmt.Println("redconnstr", redisConnStr)
 	RedisConnPool = &redis.Pool{
 		MaxIdle:   80,
 		MaxActive: 12000,
 		Dial: func() (redis.Conn, error) {
 			conn, err := redis.Dial("tcp", redisConnStr)
 			if err != nil {
-				fmt.Printf("ERROR: fail init redis pool: %s", err.Error())
+				log.Printf("ERROR: fail init redis pool: %s", err.Error())
 				os.Exit(1)
 			}
 			return conn, err
 		},
 	}
-
+	log.Println("Connected to redis database")
 }
 
 func pingRedisPool(conn redis.Conn) {
 	_, err := redis.String(conn.Do("PING"))
 	if err != nil {
-		fmt.Printf("ERROR: fail ping redis conn: %s", err.Error())
-		Ready = false
+		log.Printf("ERROR: fail ping redis conn: %s", err.Error())
+		RedisReady = false
 		// os.Exit(1)
 	}
-	Ready = true
+	log.Printf("Redis database ping succesfull")
+	RedisReady = true
 	// fmt.Println(pong, err)
 }
 
