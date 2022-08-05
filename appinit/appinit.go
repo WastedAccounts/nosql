@@ -1,25 +1,33 @@
 package appinit
 
 import (
-	"fmt"
+	"log"
 	"nosql/datasources"
 	"os"
 )
 
 var (
-	dbReady bool
+	redisReady   bool
+	mongodbReady bool
 )
 
 func Init() {
 	os.Setenv("TZ", "America/New_York")
 
 	// initialize redis datasource
-	dbReady = datasources.SetupRedis()
-	if dbReady == true {
-		fmt.Println("datasource redis ready")
+	redisReady = datasources.SetupRedis()
+	if redisReady == true {
+		log.Println("Redis datasource is ready")
 	} else {
-		fmt.Println("datasource redis failed")
+		log.Println("datasource redis failed")
 	}
 
 	// initialize mongodb datasource
+	mongodbReady = datasources.SetupMongodb()
+	if mongodbReady == true {
+		log.Println("Mongodb datasource is ready")
+	} else {
+		log.Println("datasource mongo failed")
+	}
+
 }

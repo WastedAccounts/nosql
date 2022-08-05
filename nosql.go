@@ -3,13 +3,14 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"log"
 	"nosql/appinit"
 	"os"
 )
 
 func main() {
 
-	fmt.Println("Server is starting")
+	log.Println("Server is starting")
 	// launch web site and serve requests
 	// err := http.ListenAndServe(":3000", nil)
 	// if err != nil {
@@ -31,7 +32,7 @@ func main() {
 		i++
 		writekey(scanner.Text())
 	}
-	fmt.Println("Shutdown complete")
+	log.Println("Shutdown complete")
 }
 
 func writekey(s string) {
