@@ -14,6 +14,7 @@ var (
 	RedisReady    bool
 )
 
+// SetupRedis -- exposed call for appinit to reach and start up the connection pool for redis
 func SetupRedis() bool {
 	// Get environment variables
 	if err := godotenv.Load(); err != nil {
@@ -25,13 +26,12 @@ func SetupRedis() bool {
 	return RedisReady
 }
 
-func initRedisPool() {
-	var redisConnStr string
+// initRedisPool -- initializes pool and create global var
+func initRedisPool() *redis.Pool {
 	REDIS_SVR := os.Getenv("REDIS_IP")
 	REDIS_PORT := os.Getenv("REDIS_PORT")
-	redisConnStr = REDIS_SVR + ":" + REDIS_PORT
-	//fmt.Println("redconnstr", redisConnStr)
-	RedisConnPool = &redis.Pool{
+	redisConnStr := REDIS_SVR + ":" + REDIS_PORT
+	redisConnPool := &redis.Pool{
 		MaxIdle:   80,
 		MaxActive: 12000,
 		Dial: func() (redis.Conn, error) {
@@ -44,31 +44,19 @@ func initRedisPool() {
 		},
 	}
 	log.Println("Connected to redis database")
+
+	// Set Global var for redis connection pool and return it
+	RedisConnPool = redisConnPool
+	return RedisConnPool
 }
 
+// pingRedisPool -- Pings pool to confirm it's working and open initiation connection
 func pingRedisPool(conn redis.Conn) {
 	_, err := redis.String(conn.Do("PING"))
 	if err != nil {
 		log.Printf("ERROR: fail ping redis conn: %s", err.Error())
 		RedisReady = false
-		// os.Exit(1)
 	}
 	log.Printf("Redis database ping succesfull")
 	RedisReady = true
-	// fmt.Println(pong, err)
 }
-
-// func SetDatasource() {
-// 	// Get environment variables
-// 	if err := godotenv.Load(); err != nil {
-// 		log.Print("No .env file found")
-// 	}
-// 	SQLSERVER := os.Getenv("SQLSERVER")
-// 	SQLUSER := os.Getenv("SQLUSER")
-// 	SQLPW := os.Getenv("SQLPW")
-// 	SQLPORT := os.Getenv("SQLPORT")
-// 	SQLDBNAME := os.Getenv("SQLDBNAME")
-
-// 	// Create Datasource string
-// 	DataSource = SQLUSER + ":" + SQLPW + "@tcp(" + SQLSERVER + ":" + SQLPORT + ")/" + SQLDBNAME + "?parseTime=true"
-// }

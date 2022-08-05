@@ -11,7 +11,9 @@ var (
 	mongodbReady bool
 )
 
+// Init -- app initialization tasks. Exposed and called from nosql.go
 func Init() {
+	// Set Timezone
 	os.Setenv("TZ", "America/New_York")
 
 	// initialize redis datasource

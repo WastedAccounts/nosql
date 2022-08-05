@@ -18,6 +18,7 @@ var (
 	MongoReady    bool
 )
 
+// SetupMongodb -- exposed call for appinit to reach and start up the connection pool for mongo
 func SetupMongodb() bool {
 	initMongoPool()
 	pingMongoPool()
@@ -25,6 +26,7 @@ func SetupMongodb() bool {
 	return MongoReady
 }
 
+//initMongoPool -- initializes mongo connection pool and returns global var for pool
 func initMongoPool() *mongo.Client {
 	// Get environment variables
 	if err := godotenv.Load(); err != nil {
@@ -43,16 +45,12 @@ func initMongoPool() *mongo.Client {
 		log.Println("Connected to mongodb database")
 	}
 
-	// pinged := mongoConnPool.Ping(context.TODO(), readpref.Primary())
-	// if err != nil {
-	// 	log.Println("PINGED .. Maybe")
-	// }
-	// log.Println(pinged)
-
+	// Set Global var for mongo connection pool and return it
 	MongoConnPool = mongoConnPool
 	return MongoConnPool
 }
 
+// pingMongoPool -- Pings pool to confirm it's working and open initiation connection
 func pingMongoPool() {
 
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
