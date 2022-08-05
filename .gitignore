@@ -1,0 +1,4 @@
+*.sql
+Dockerfile
+env-file
+.env
