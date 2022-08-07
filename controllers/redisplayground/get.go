@@ -11,7 +11,7 @@ import (
 
 func getRead() {
 
-	fmt.Println("Nosql: But, what do you want to read")
+	fmt.Println("Nosql: What do you want to read... nerd")
 	fmt.Println("Nosql: 1 - all, 2 - one, back - to go back")
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {

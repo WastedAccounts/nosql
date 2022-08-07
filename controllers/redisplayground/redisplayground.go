@@ -42,6 +42,7 @@ func choosePath(s string) {
 		RedisPlayground()
 	}
 	if s == "back" {
+		fmt.Println("Nosql: going back")
 		os.Exit(2)
 	}
 }

@@ -17,6 +17,9 @@ func PromptForInput(prompt string, valid map[string]bool) string {
 			fmt.Println("Nosql: Later nerd")
 			os.Exit(1)
 		}
+		if scanner.Text() == "back" {
+			os.Exit(1)
+		}
 		validated = validateInput(prompt, scanner.Text(), valid)
 		break
 	}
