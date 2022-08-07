@@ -3,71 +3,61 @@ package redisplayground
 import (
 	"fmt"
 	"nosql/controllers/validateinput"
+	"os"
 )
 
 func RedisPlayground() {
 	fmt.Println("Nosql: Welcome to Redis land")
 	// prompt for input
-	// promptForInput()
-	////promptForInput()
-	prompt := "Nosql: What do you want to do? \n Nosql: 1 - Create, 2 - Read, 3 - Update, 4 - Delete"
+	prompt := "Nosql: What do you want to do? \nNosql: 1 - Create, 2 - Read, 3 - Update, 4 - Delete, back - to go back"
 	valid := map[string]bool{"1": true, "2": true, "3": true, "4": true}
 	decision := validateinput.PromptForInput(prompt, valid)
 	choosePath(decision)
 }
 
 func choosePath(s string) {
-	valid := map[string]bool{"1": true, "2": true}
-	if valid[s] {
-		if s == "1" {
-			fmt.Println("Nosql: Create it is")
-		}
-		if s == "2" {
-			fmt.Println("Nosql: Reading is for dorks")
-		}
-		if s == "3" {
-			fmt.Println("Nosql: Updating in prod, brave")
-		}
-		if s == "4" {
-			fmt.Println("Nosql: Let's delete some shit")
-		}
+	var key, val, ex string
+
+	if s == "1" {
+		fmt.Println("Nosql: Create it is")
+		key = validateinput.GetKey()
+		val = validateinput.GetValue()
+		ex = validateinput.GetExpire()
+		setToRedis(key, val, ex)
+		RedisPlayground()
+	}
+	if s == "2" {
+		fmt.Println("Nosql: Reading is for dorks")
+		getRead()
+		RedisPlayground()
+	}
+	if s == "3" {
+		fmt.Println("Nosql: Updating in prod, brave")
+
+		RedisPlayground()
+	}
+	if s == "4" {
+		fmt.Println("Nosql: Let's delete some shit")
+
+		RedisPlayground()
+	}
+	if s == "back" {
+		os.Exit(2)
 	}
 }
 
-// func promptForInput() {
-// 	fmt.Println("Nosql: What do you want to do?")
-// 	fmt.Println("Nosql: 1 - Create, 2 - Read, 3 - Update, 4 - Delete")
-// 	scanner := bufio.NewScanner(os.Stdin)
-// 	for scanner.Scan() {
-// 		validateInput(scanner.Text())
-// 	}
-// }
+func create() {
 
-// func validateInput(s string) {
-// 	valid := map[string]bool{"1": true, "2": true, "3": true, "4": true, "exit": true}
-// 	if valid[s] {
-// 		if s == "1" {
-// 			fmt.Println("Nosql: Create it is")
-// 		}
-// 		if s == "2" {
-// 			fmt.Println("Nosql: Reading is for dorks")
-// 		}
-// 		if s == "3" {
-// 			fmt.Println("Nosql: Updating in prod, brave")
-// 		}
-// 		if s == "4" {
-// 			fmt.Println("Nosql: Let's delete some shit")
-// 		}
-// 		if s == "exit" {
-// 			fmt.Println("Nosql: Later nerd")
-// 			os.Exit(1)
-// 		}
-// 	} else {
-// 		fmt.Println("Nosql: fool, don't be dumb")
-// 		fmt.Println("Nosql: try again")
-// 		promptForInput()
-// 	}
-// }
+}
+func read() {
+
+}
+func update() {
+
+}
+func delete() {
+
+}
 
 // ///// Web stuff if I want to make it a web app
 
