@@ -2,14 +2,24 @@ package redisplayground
 
 import (
 	//"context"
+
 	"fmt"
 	"log"
+	"nosql/controllers/validateinput"
 	"nosql/datasources"
 
 	"github.com/gomodule/redigo/redis"
 )
 
-func setToRedis(key string, val string, ex string) {
+func setToRedis() {
+	var key, val, ex string
+	key = validateinput.GetKey()
+	val = validateinput.GetValue()
+	ex = validateinput.GetExpire()
+	setOne(key, val, ex)
+}
+
+func setOne(key string, val string, ex string) {
 	// open connection to redis and defer close
 	conn := datasources.RedisConnPool.Get()
 	defer conn.Close()
@@ -22,5 +32,8 @@ func setToRedis(key string, val string, ex string) {
 		fmt.Println(err)
 	}
 	fmt.Println("Nosql: Save key-value pair result:", set)
-
 }
+
+// func setMany() {
+
+// }

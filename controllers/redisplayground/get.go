@@ -17,7 +17,7 @@ func getRead() {
 	for scanner.Scan() {
 		if scanner.Text() == "1" {
 			getAll()
-			getRead()
+			// getRead()
 		}
 		if scanner.Text() == "2" {
 			fmt.Println("Nosql: Which key?")
@@ -33,7 +33,6 @@ func getRead() {
 			RedisPlayground()
 		}
 	}
-
 }
 
 func getAll() {
@@ -46,6 +45,7 @@ func getAll() {
 		fmt.Println(err)
 	}
 	fmt.Println("Nosql: Get ALL Keys:\n", getAll)
+	getRead()
 }
 
 func getOne(key string) {
@@ -58,4 +58,5 @@ func getOne(key string) {
 		fmt.Println(err)
 	}
 	fmt.Println("Nosql: Get Key \n", getOne)
+	getRead()
 }
