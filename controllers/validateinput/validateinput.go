@@ -15,11 +15,10 @@ func PromptForInput(prompt string, valid map[string]bool) string {
 	for scanner.Scan() {
 		if scanner.Text() == "exit" {
 			fmt.Println("Nosql: Later nerd")
-			os.Exit(1)
+			os.Exit(12)
 		}
 		validated = validateInput(prompt, scanner.Text(), valid)
-		//fmt.Println("validated:", validated)
-		return validated
+		break
 	}
 	return validated
 }
@@ -31,10 +30,8 @@ func validateInput(prompt string, s string, valid map[string]bool) string {
 		fmt.Println("Nosql: try again")
 		PromptForInput(prompt, valid)
 	} else {
-		//fmt.Println(valid)
 		fmt.Println("Nosql:", s, "is an excellent choice")
 		fmt.Println(s)
-		return s
 	}
 	return s
 }

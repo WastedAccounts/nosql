@@ -6,68 +6,34 @@ import (
 )
 
 func RedisPlayground() {
+
 	fmt.Println("Nosql: Welcome to Redis land")
 	// prompt for input
-	// promptForInput()
-	////promptForInput()
-	prompt := "Nosql: What do you want to do? \n Nosql: 1 - Create, 2 - Read, 3 - Update, 4 - Delete"
-	valid := map[string]bool{"1": true, "2": true, "3": true, "4": true}
+	prompt := "Nosql: What do you want to do? \nNosql: 1 - Set, 2 - Read, 3 - Delete, back - to go back"
+	valid := map[string]bool{"1": true, "2": true, "3": true, "back": true}
 	decision := validateinput.PromptForInput(prompt, valid)
-	choosePath(decision)
-}
-
-func choosePath(s string) {
-	valid := map[string]bool{"1": true, "2": true}
-	if valid[s] {
-		if s == "1" {
-			fmt.Println("Nosql: Create it is")
-		}
-		if s == "2" {
-			fmt.Println("Nosql: Reading is for dorks")
-		}
-		if s == "3" {
-			fmt.Println("Nosql: Updating in prod, brave")
-		}
-		if s == "4" {
-			fmt.Println("Nosql: Let's delete some shit")
-		}
+	if decision != "back" {
+		choosePath(decision)
 	}
 }
 
-// func promptForInput() {
-// 	fmt.Println("Nosql: What do you want to do?")
-// 	fmt.Println("Nosql: 1 - Create, 2 - Read, 3 - Update, 4 - Delete")
-// 	scanner := bufio.NewScanner(os.Stdin)
-// 	for scanner.Scan() {
-// 		validateInput(scanner.Text())
-// 	}
-// }
-
-// func validateInput(s string) {
-// 	valid := map[string]bool{"1": true, "2": true, "3": true, "4": true, "exit": true}
-// 	if valid[s] {
-// 		if s == "1" {
-// 			fmt.Println("Nosql: Create it is")
-// 		}
-// 		if s == "2" {
-// 			fmt.Println("Nosql: Reading is for dorks")
-// 		}
-// 		if s == "3" {
-// 			fmt.Println("Nosql: Updating in prod, brave")
-// 		}
-// 		if s == "4" {
-// 			fmt.Println("Nosql: Let's delete some shit")
-// 		}
-// 		if s == "exit" {
-// 			fmt.Println("Nosql: Later nerd")
-// 			os.Exit(1)
-// 		}
-// 	} else {
-// 		fmt.Println("Nosql: fool, don't be dumb")
-// 		fmt.Println("Nosql: try again")
-// 		promptForInput()
-// 	}
-// }
+func choosePath(s string) {
+	if s == "1" {
+		fmt.Println("Nosql: Set it, set it good")
+		setToRedis()
+		RedisPlayground()
+	}
+	if s == "2" {
+		fmt.Println("Nosql: Reading is for dorks")
+		getRead()
+		RedisPlayground()
+	}
+	if s == "3" {
+		fmt.Println("Nosql: Let's delete some shit")
+		delFromRedis()
+		RedisPlayground()
+	}
+}
 
 // ///// Web stuff if I want to make it a web app
 
