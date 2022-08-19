@@ -19,8 +19,8 @@ func main() {
 	appinit.Init()
 
 	// let's start
-	close := false
-	for close != true {
+	Closeapp := false
+	for Closeapp != true {
 		enterapp.LetsStart()
 	}
 
